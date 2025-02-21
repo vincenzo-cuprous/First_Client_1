@@ -2,8 +2,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from home import serve_home
 from about import serve_about
-from skills import serve_skills
-from projects import serve_projects
 from contact import serve_contact
 from settings import PORT, HOST
 
@@ -12,8 +10,6 @@ class PortfolioHandler(BaseHTTPRequestHandler):
         routes = {
             '/': serve_home,
             '/about': serve_about,
-            '/skills': serve_skills,
-            '/projects': serve_projects,
             '/contact': serve_contact
         }
         
