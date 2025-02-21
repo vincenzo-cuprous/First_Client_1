@@ -19,7 +19,7 @@ def serve_base_html(active_section):
                             <a href="/" class="btn btn-ghost {active_section == 'home' and 'btn-active'}">
                                 <i class="fas fa-home mr-2"></i>Home
                             </a>
-                            <a href="#" class="btn btn-ghost {active_section == 'islamic content' and 'btn-active'}">
+                            <a href="/islamic_content" class="btn btn-ghost {active_section == 'islamic content' and 'btn-active'}">
                                 <i class="fas fa-star-and-crescent  mr-2"></i>Islamic Content
                             </a>
 
