@@ -1,0 +1,158 @@
+# API Testing Guide using curl
+
+## Book Operations
+
+### 1. Create a New Book
+```bash
+curl -X POST http://localhost:5000/book \
+  -H "Content-Type: application/json" \
+  -d '{
+    "book_name": "The Great Gatsby",
+    "ratings": 4.5,
+    "author_name": "F. Scott Fitzgerald",
+    "category": "Classic Literature",
+    "description": "A story of decadence and excess.",
+    "picture_url": "https://example.com/gatsby.jpg",
+    "download_url": "https://example.com/gatsby.pdf"
+  }'
+```
+
+### 2. Get All Books
+```bash
+curl -X GET http://localhost:5000/books
+```
+
+### 3. Get a Specific Book
+```bash
+curl -X GET http://localhost:5000/book/1
+```
+
+### 4. Update a Book
+```bash
+curl -X PUT http://localhost:5000/book/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ratings": 4.8,
+    "description": "Updated description of the book."
+  }'
+```
+
+### 5. Delete a Book
+```bash
+curl -X DELETE http://localhost:5000/book/1
+```
+
+## Comment Operations
+
+### 1. Add a Comment to a Book
+```bash
+curl -X POST http://localhost:5000/book/1/comment \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 123,
+    "user_name": "John Doe",
+    "comment": "This book was fantastic!"
+  }'
+```
+
+### 2. Get All Comments for a Book
+```bash
+curl -X GET http://localhost:5000/book/1/comments
+```
+
+### 3. Update a Comment
+```bash
+curl -X PUT http://localhost:5000/comment/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "comment": "Updated comment text after reading it again."
+  }'
+```
+
+### 4. Delete a Comment
+```bash
+curl -X DELETE http://localhost:5000/comment/1
+```
+
+### 5. Get All Comments by a User
+```bash
+curl -X GET http://localhost:5000/user/123/comments
+```
+
+## Testing Tips
+
+1. **Save Response Headers**
+```bash
+curl -i -X GET http://localhost:5000/books
+```
+
+2. **Save Output to File**
+```bash
+curl -X GET http://localhost:5000/books > books.json
+```
+
+3. **Verbose Output**
+```bash
+curl -v -X GET http://localhost:5000/books
+```
+
+4. **Testing Error Cases**
+```bash
+# Test missing required field
+curl -X POST http://localhost:5000/book \
+  -H "Content-Type: application/json" \
+  -d '{
+    "book_name": "Incomplete Book"
+  }'
+
+# Test invalid book ID
+curl -X GET http://localhost:5000/book/999
+```
+
+## Example Testing Workflow
+
+1. Create a new book:
+```bash
+curl -X POST http://localhost:5000/book \
+  -H "Content-Type: application/json" \
+  -d '{
+    "book_name": "Test Book",
+    "ratings": 4.0,
+    "author_name": "Test Author",
+    "category": "Test Category",
+    "description": "Test Description",
+    "picture_url": "https://example.com/test.jpg",
+    "download_url": "https://example.com/test.pdf"
+  }'
+```
+
+2. Get the book ID from the response and add a comment:
+```bash
+curl -X POST http://localhost:5000/book/1/comment \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 123,
+    "user_name": "Test User",
+    "comment": "Test Comment"
+  }'
+```
+
+3. Verify the comment was added:
+```bash
+curl -X GET http://localhost:5000/book/1/comments
+```
+
+4. Clean up by deleting the book (this will not delete associated comments):
+```bash
+curl -X DELETE http://localhost:5000/book/1
+```
+
+## Response Status Codes
+
+- 200: Successful GET, PUT, DELETE
+- 201: Successful POST (resource created)
+- 400: Bad Request (invalid input)
+- 404: Resource Not Found
+- 500: Server Error
+
+Remember to check the response status codes and messages for proper error handling in your tests.
