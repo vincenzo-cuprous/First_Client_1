@@ -1,13 +1,14 @@
-# app.py
-from settings import app, db
-from books import Book, add_book, get_book, get_all_books, update_book, delete_book
-from comment import Comment, add_comment, get_book_comments, update_comment, delete_comment, get_user_comments
-from flask import send_from_directory, render_template_string, abort
+from flask import Flask, send_from_directory, render_template_string, abort
 import os
 from werkzeug.utils import secure_filename
 
-# Configuration for file serving
+app = Flask(__name__)
+
+# Configuration
 SERVE_DIRECTORY = "db"  # Directory to serve files from
+ALLOWED_EXTENSIONS = None  # Allow all extensions
+
+# Create the serve directory if it doesn't exist
 if not os.path.exists(SERVE_DIRECTORY):
     os.makedirs(SERVE_DIRECTORY)
 
@@ -47,25 +48,6 @@ DIRECTORY_TEMPLATE = '''
 </html>
 '''
 
-# Create the database and tables
-with app.app_context():
-    db.create_all()
-
-# Book routes
-app.route('/book', methods=['POST'])(add_book)
-app.route('/book/<int:book_id>', methods=['GET'])(get_book)
-app.route('/books', methods=['GET'])(get_all_books)
-app.route('/book/<int:book_id>', methods=['PUT'])(update_book)
-app.route('/book/<int:book_id>', methods=['DELETE'])(delete_book)
-
-# Comment routes
-app.route('/book/<int:book_id>/comment', methods=['POST'])(add_comment)
-app.route('/book/<int:book_id>/comments', methods=['GET'])(get_book_comments)
-app.route('/comment/<int:comment_id>', methods=['PUT'])(update_comment)
-app.route('/comment/<int:comment_id>', methods=['DELETE'])(delete_comment)
-app.route('/user/<int:user_id>/comments', methods=['GET'])(get_user_comments)
-
-# File serving routes
 @app.route('/db/')
 @app.route('/db/<path:path>')
 def serve_files(path=''):
@@ -109,4 +91,4 @@ def forbidden_error(error):
     return "Access forbidden", 403
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='localhost', port=5000)
