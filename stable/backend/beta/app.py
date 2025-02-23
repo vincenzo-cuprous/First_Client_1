@@ -1,7 +1,11 @@
 # app.py
 from settings import app, db
 from books import Book, add_book, get_book, get_all_books, update_book, delete_book
-from comment import Comment, add_comment, get_book_comments, update_comment, delete_comment, get_user_comments
+from comment import (
+    Comment, add_comment, get_book_comments, update_comment, delete_comment, 
+    get_user_comments, add_admin_reply, delete_admin_reply,
+    get_comments_with_admin_replies, get_comments_without_admin_replies
+)
 from flask import send_from_directory, render_template_string, abort
 import os
 from werkzeug.utils import secure_filename
@@ -64,6 +68,12 @@ app.route('/book/<int:book_id>/comments', methods=['GET'])(get_book_comments)
 app.route('/comment/<int:comment_id>', methods=['PUT'])(update_comment)
 app.route('/comment/<int:comment_id>', methods=['DELETE'])(delete_comment)
 app.route('/user/<int:user_id>/comments', methods=['GET'])(get_user_comments)
+
+# New admin reply routes
+app.route('/comment/<int:comment_id>/admin-reply', methods=['POST'])(add_admin_reply)
+app.route('/comment/<int:comment_id>/admin-reply', methods=['DELETE'])(delete_admin_reply)
+app.route('/comments/with-admin-replies', methods=['GET'])(get_comments_with_admin_replies)
+app.route('/comments/without-admin-replies', methods=['GET'])(get_comments_without_admin_replies)
 
 # File serving routes
 @app.route('/db/')
