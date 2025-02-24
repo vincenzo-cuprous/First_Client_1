@@ -1,5 +1,5 @@
 # layout.py
-from dash import html, dcc
+from dash import html
 import dash_bootstrap_components as dbc
 
 def create_navbar(active_section='home'):
@@ -78,8 +78,6 @@ def create_footer():
                 rel="stylesheet",
                 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             ),
-            # Theme Store (for light/dark mode)
-            dcc.Store(id="theme-store", data="light"),
             # JavaScript to apply the theme
             html.Script(
                 """
@@ -94,8 +92,8 @@ def create_footer():
                     applyTheme(data.data);
                 });
 
-                // Apply the initial theme
-                const initialTheme = document.getElementById('theme-store').getAttribute('data');
+                // Apply the initial theme from local storage
+                const initialTheme = localStorage.getItem('theme-store') || 'light';
                 applyTheme(initialTheme);
                 """
             )

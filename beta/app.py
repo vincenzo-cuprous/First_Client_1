@@ -21,8 +21,8 @@ app.layout = html.Div([
     html.Div(id='page-content'),
     # Footer will be rendered once here
     create_footer(),
-    # Theme store
-    dcc.Store(id='theme-store', data='light')
+    # Theme store - now only defined here
+    dcc.Store(id='theme-store', data='light', storage_type='local')  # Added storage_type for persistence
 ])
 
 # Callback to update the navbar and page content based on the URL
