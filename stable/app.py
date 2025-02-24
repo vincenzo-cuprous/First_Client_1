@@ -2,12 +2,8 @@
 from dash import Dash, html, dcc
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
-from home import serve_home
-from about import serve_about
-from islamic_content import serve_islamic_content
-from contact import serve_contact
-from layout import create_navbar, create_footer
-from books import serve_book_page
+from layout import create_footer
+from routes import register_callbacks
 from settings import PORT, HOST
 
 # Initialize the Dash app with suppress_callback_exceptions=True
@@ -26,36 +22,8 @@ app.layout = html.Div([
     dcc.Store(id='theme-store', data='light', storage_type='local')  # Added storage_type for persistence
 ])
 
-# Callback to update the navbar and page content based on the URL
-@app.callback(
-    [Output('navbar-container', 'children'),
-     Output('page-content', 'children')],
-    [Input('url', 'pathname')]
-)
-def update_layout(pathname):
-    """Updates the navbar and page content based on the current pathname."""
-    routes = {
-        '/': 'home',
-        '/about': 'about',
-        '/islamic_content': 'islamic_content',
-        '/books': 'books',
-        '/contact': 'contact'
-    }
-    active_section = routes.get(pathname, 'home')
-
-    # Define the page content based on the URL
-    page_content = {
-        '/': serve_home(),
-        '/about': serve_about(),
-        '/islamic_content': serve_islamic_content(),
-        '/books': serve_book_page(),
-        '/contact': serve_contact()
-    }.get(pathname, '404 Page Not Found')
-
-    # Re-render the navbar with the correct active section
-    navbar = create_navbar(active_section=active_section)
-
-    return navbar, page_content
+# Register route callbacks from routes.py
+register_callbacks(app)
 
 # Callback to handle theme toggling
 @app.callback(
