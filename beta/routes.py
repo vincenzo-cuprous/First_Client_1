@@ -2,7 +2,6 @@
 from dash.dependencies import Input, Output
 from home import serve_home
 from about import serve_about
-from islamic_content import serve_islamic_content
 from contact import serve_contact
 from layout import create_navbar
 from books import serve_book_page, serve_books_list_page
@@ -27,7 +26,6 @@ def register_callbacks(app):
         routes = {
             '/': 'home',
             '/about': 'about',
-            '/islamic_content': 'islamic_content',
             '/books': 'books',
             '/contact': 'contact'
         }
@@ -48,7 +46,6 @@ def register_callbacks(app):
             page_content = {
                 '/': serve_home(),
                 '/about': serve_about(),
-                '/islamic_content': serve_islamic_content(),
                 '/books': serve_books_list_page(),  # Changed to list all books
                 '/contact': serve_contact()
             }.get(pathname, '404 Page Not Found')

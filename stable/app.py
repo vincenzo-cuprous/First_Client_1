@@ -4,6 +4,7 @@ from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from layout import create_footer
 from routes import register_callbacks
+from books import register_book_callbacks, register_book_detail_callbacks
 from settings import PORT, HOST
 
 # Initialize the Dash app with suppress_callback_exceptions=True
@@ -24,6 +25,10 @@ app.layout = html.Div([
 
 # Register route callbacks from routes.py
 register_callbacks(app)
+
+# Register book-related callbacks
+register_book_callbacks(app)
+register_book_detail_callbacks(app)
 
 # Callback to handle theme toggling
 @app.callback(

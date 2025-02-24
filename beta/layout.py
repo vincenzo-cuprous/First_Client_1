@@ -29,10 +29,10 @@ def create_navbar(active_section='home'):
                             className=f"btn btn-ghost {'btn-active' if active_section == 'about' else ''}"  # DaisyUI active class
                         ),
                        dbc.NavLink(
-                            [html.I(className="fas fa-star-and-crescent mr-2"), "Islamic Content"],
-                            href="/islamic_content",
-                            active=active_section == "islamic_content",  # Active state for Projects
-                            className=f"btn btn-ghost {'btn-active' if active_section == 'islamic_content' else ''}"  # DaisyUI active class
+                            [html.I(className="fas fa-star-and-crescent mr-2"), "Books"],
+                            href="/books",
+                            active=active_section == "books",  # Active state for Projects
+                            className=f"btn btn-ghost {'btn-active' if active_section == 'books' else ''}"  # DaisyUI active class
                         ),
                         dbc.NavLink(
                             [html.I(className="fas fa-envelope mr-2"), "Contact"],
