@@ -108,18 +108,18 @@ def create_book_card(title, description, author, category, rating, image_url, li
             # Card body
             html.Div([
                 # Category badge
-                html.Div(
+                html.Div([
+                    html.I(className="fas fa-tag mr-2"),
                     html.Span(
                         category,
                         className="badge badge-primary badge-outline"
                     ),
-                    className="mb-2"
-                ),
+                ], className="mb-2 flex items-center"),
                 # Title
-                html.H2(
-                    title,
-                    className="card-title text-xl mb-2"
-                ),
+                html.H2([
+                    html.I(className="fas fa-book mr-2"),
+                    title
+                ], className="card-title text-xl mb-2 flex items-center"),
                 # Author
                 html.P([
                     html.I(className="fas fa-user mr-2"),
@@ -134,10 +134,10 @@ def create_book_card(title, description, author, category, rating, image_url, li
                     )
                 ], className="flex items-center mb-3"),
                 # Description
-                html.P(
-                    description,
-                    className="text-base-content/70 text-sm mb-4 line-clamp-3"
-                ),
+                html.P([
+                    html.I(className="fas fa-info-circle mr-2"),
+                    description
+                ], className="text-base-content/70 text-sm mb-4 line-clamp-3"),
                 # Action buttons
                 html.Div([
                     html.A([
