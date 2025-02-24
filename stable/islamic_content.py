@@ -1,4 +1,4 @@
-from dash import html
+from dash import html, dcc
 
 def serve_islamic_content():
     """
@@ -39,7 +39,7 @@ def serve_islamic_content():
                             category="Sacred Text",
                             rating=5.0,
                             image_url="/api/placeholder/300/400",
-                            link="/books"
+                            link="/books"  # Updated link to open inside the site
                         ),
                     ], className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"),
                 ], className="container mx-auto px-4 py-20"),
@@ -122,13 +122,12 @@ def create_book_card(title, description, author, category, rating, image_url, li
                 ], className="text-base-content/70 text-sm mb-4 line-clamp-3"),
                 # Action buttons
                 html.Div([
-                    html.A([
-                        html.I(className="fas fa-book-reader mr-2"),
-                        "Read Online"
-                    ],
-                    href=link,
-                    target="_blank",
-                    className="btn btn-primary w-full hover:scale-105 transition-transform"),
+                    # Read Online Button (opens link inside the site)
+                    dcc.Link(
+                        [html.I(className="fas fa-book-reader mr-2"), "Read Online"],
+                        href=link,
+                        className="btn btn-primary w-full hover:scale-105 transition-transform"
+                    ),
                 ], className="card-actions justify-end"),
             ], className="card-body"),
         ], className="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300"),
