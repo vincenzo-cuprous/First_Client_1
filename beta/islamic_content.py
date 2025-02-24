@@ -1,9 +1,26 @@
 from dash import html, dcc
+import requests
+from datetime import datetime
+
+# Backend API base URL
+BACKEND_API_URL = "http://localhost:5000"
 
 def serve_islamic_content():
     """
     Returns the content for the Islamic book library page using DaisyUI components.
+    Fetches book data from the backend API and renders it.
     """
+    # Fetch all books from the backend API
+    try:
+        response = requests.get(f"{BACKEND_API_URL}/books")
+        if response.status_code == 200:
+            books = response.json()
+        else:
+            books = []
+    except Exception as e:
+        print(f"Error fetching books: {e}")
+        books = []
+
     return html.Div([
         # Hero Section
         html.Section(
@@ -30,17 +47,17 @@ def serve_islamic_content():
                     className="text-4xl font-bold mb-12 text-center"
                 ),
                 html.Div([
-                    # Book Cards Grid (only one card remains)
+                    # Book Cards Grid
                     html.Div([
                         create_book_card(
-                            title="The Noble Quran",
-                            description="The holy book of Islam, containing the words of Allah as revealed to Prophet Muhammad (PBUH). This translation includes detailed commentary and contextual explanations.",
-                            author="Translation by Dr. Muhammad Muhsin Khan",
-                            category="Sacred Text",
-                            rating=5.0,
-                            image_url="/api/placeholder/300/400",
-                            link="/books"  # Updated link to open inside the site
-                        ),
+                            title=book['book_name'],
+                            description=book['description'],
+                            author=book['author_name'],
+                            category=book['category'],
+                            rating=book['ratings'],
+                            image_url=book['picture_url'],
+                            link=book['download_url']  # Link to download the book
+                        ) for book in books
                     ], className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"),
                 ], className="container mx-auto px-4 py-20"),
             ], className="bg-base-100"),
@@ -122,11 +139,12 @@ def create_book_card(title, description, author, category, rating, image_url, li
                 ], className="text-base-content/70 text-sm mb-4 line-clamp-3"),
                 # Action buttons
                 html.Div([
-                    # Read Online Button (opens link inside the site)
-                    dcc.Link(
-                        [html.I(className="fas fa-book-reader mr-2"), "Read Online"],
+                    # Download Button
+                    html.A(
+                        [html.I(className="fas fa-download mr-2"), "Download"],
                         href=link,
-                        className="btn btn-primary w-full hover:scale-105 transition-transform"
+                        className="btn btn-primary w-full hover:scale-105 transition-transform",
+                        target="_blank"  # Open download link in a new tab
                     ),
                 ], className="card-actions justify-end"),
             ], className="card-body"),
