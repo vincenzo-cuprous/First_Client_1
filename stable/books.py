@@ -38,18 +38,22 @@ def serve_book_page():
 
                     # Book Details
                     html.Div([
+                        # Book Name with Icon
                         html.H2(
-                            "The Noble Quran",
-                            className="text-4xl font-bold mb-4"
+                            [html.I(className="fas fa-book mr-2"), "The Noble Quran"],
+                            className="text-4xl font-bold mb-4 flex items-center"
                         ),
+                        # Author Name with Icon
                         html.P(
-                            "Author: Dr. Muhammad Muhsin Khan",
-                            className="text-xl text-base-content/80 mb-4"
+                            [html.I(className="fas fa-user mr-2"), "Author: Dr. Muhammad Muhsin Khan"],
+                            className="text-xl text-base-content/80 mb-4 flex items-center"
                         ),
+                        # Category with Icon
                         html.P(
-                            "Category: Sacred Text",
-                            className="text-xl text-base-content/80 mb-4"
+                            [html.I(className="fas fa-tag mr-2"), "Category: Sacred Text"],
+                            className="text-xl text-base-content/80 mb-4 flex items-center"
                         ),
+                        # Rating with Icon
                         html.Div([
                             create_rating_stars(5.0),
                             html.Span(
@@ -57,9 +61,12 @@ def serve_book_page():
                                 className="ml-2 text-xl font-bold"
                             )
                         ], className="flex items-center mb-4"),
+                        # Description with Icon
                         html.P(
-                            "Description: The holy book of Islam, containing the words of Allah as revealed to Prophet Muhammad (PBUH). This translation includes detailed commentary and contextual explanations.",
-                            className="text-lg text-base-content/80 mb-8"
+                            [html.I(className="fas fa-info-circle mr-2"), 
+                             "Description: The holy book of Islam, containing the words of Allah as revealed to Prophet Muhammad (PBUH). This translation includes detailed commentary and contextual explanations."
+                            ],
+                            className="text-lg text-base-content/80 mb-8 flex items-start"
                         ),
                         # Buttons for Download and Preview
                         html.Div([
