@@ -30,7 +30,7 @@ def serve_islamic_content():
                     className="text-4xl font-bold mb-12 text-center"
                 ),
                 html.Div([
-                    # Book Cards Grid
+                    # Book Cards Grid (only one card remains)
                     html.Div([
                         create_book_card(
                             title="The Noble Quran",
@@ -40,24 +40,6 @@ def serve_islamic_content():
                             rating=5.0,
                             image_url="/api/placeholder/300/400",
                             link="https://example.com/quran"
-                        ),
-                        create_book_card(
-                            title="Sahih al-Bukhari",
-                            description="The most authentic collection of Hadiths, containing the sayings and actions of Prophet Muhammad (PBUH). Comprehensive compilation with detailed chain of narration.",
-                            author="Imam Muhammad al-Bukhari",
-                            category="Hadith",
-                            rating=4.9,
-                            image_url="/api/placeholder/300/400",
-                            link="https://example.com/bukhari"
-                        ),
-                        create_book_card(
-                            title="Fiqh us-Sunnah",
-                            description="A comprehensive guide to Islamic jurisprudence based on the Quran and Sunnah. Covers various aspects of Islamic law and daily practices.",
-                            author="Sayyid Saabiq",
-                            category="Fiqh",
-                            rating=4.8,
-                            image_url="/api/placeholder/300/400",
-                            link="https://example.com/fiqh"
                         ),
                     ], className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"),
                 ], className="container mx-auto px-4 py-20"),
