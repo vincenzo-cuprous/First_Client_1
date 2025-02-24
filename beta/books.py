@@ -25,6 +25,15 @@ def serve_book_page():
         # Book Details Section
         html.Section(
             html.Div([
+                # Back Button (using dcc.Link to navigate back to /islamic_content)
+                html.Div([
+                    dcc.Link(
+                        [html.I(className="fas fa-arrow-left mr-2"), "Back"],
+                        href="/islamic_content",  # Explicitly link back to /islamic_content
+                        className="btn btn-ghost hover:scale-105 transition-transform"
+                    ),
+                ], className="container mx-auto px-4 py-4"),
+
                 # Book Information
                 html.Div([
                     # Book Image
