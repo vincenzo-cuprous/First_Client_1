@@ -39,7 +39,7 @@ def serve_islamic_content():
                             category="Sacred Text",
                             rating=5.0,
                             image_url="/api/placeholder/300/400",
-                            link="https://example.com/quran"
+                            link="/books"
                         ),
                     ], className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"),
                 ], className="container mx-auto px-4 py-20"),

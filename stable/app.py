@@ -7,6 +7,7 @@ from about import serve_about
 from islamic_content import serve_islamic_content
 from contact import serve_contact
 from layout import create_navbar, create_footer
+from books import serve_book_page
 from settings import PORT, HOST
 
 # Initialize the Dash app with suppress_callback_exceptions=True
@@ -37,6 +38,7 @@ def update_layout(pathname):
         '/': 'home',
         '/about': 'about',
         '/islamic_content': 'islamic_content',
+        '/books': 'books',
         '/contact': 'contact'
     }
     active_section = routes.get(pathname, 'home')
@@ -46,6 +48,7 @@ def update_layout(pathname):
         '/': serve_home(),
         '/about': serve_about(),
         '/islamic_content': serve_islamic_content(),
+        '/books': serve_book_page(),
         '/contact': serve_contact()
     }.get(pathname, '404 Page Not Found')
 
