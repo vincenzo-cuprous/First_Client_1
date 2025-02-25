@@ -17,40 +17,10 @@ def create_navbar(active_section='home'):
                 dbc.Nav(
                     [
                         dbc.NavLink(
-                            [html.I(className="fas fa-home mr-2"), "Home"],
+                            [html.I(className="fas fa-crown mr-2"), "Admin"],
                             href="/",
                             active=active_section == "home",  # Active state for Home
                             className=f"btn btn-ghost {'btn-active' if active_section == 'home' else ''}"  # DaisyUI active class
-                        ),
-                        dbc.NavLink(
-                            [html.I(className="fas fa-user mr-2"), "About"],
-                            href="/about",
-                            active=active_section == "about",  # Active state for About
-                            className=f"btn btn-ghost {'btn-active' if active_section == 'about' else ''}"  # DaisyUI active class
-                        ),
-                        dbc.NavLink(
-                            [html.I(className="fas fa-tools mr-2"), "Skills"],
-                            href="/skills",
-                            active=active_section == "skills",  # Active state for Skills
-                            className=f"btn btn-ghost {'btn-active' if active_section == 'skills' else ''}"  # DaisyUI active class
-                        ),
-                        dbc.NavLink(
-                            [html.I(className="fas fa-project-diagram mr-2"), "Projects"],
-                            href="/projects",
-                            active=active_section == "projects",  # Active state for Projects
-                            className=f"btn btn-ghost {'btn-active' if active_section == 'projects' else ''}"  # DaisyUI active class
-                        ),
-                        dbc.NavLink(
-                            [html.I(className="fas fa-envelope mr-2"), "Contact"],
-                            href="/contact",
-                            active=active_section == "contact",  # Active state for Contact
-                            className=f"btn btn-ghost {'btn-active' if active_section == 'contact' else ''}"  # DaisyUI active class
-                        ),
-                        # Theme Toggle Button
-                        dbc.Button(
-                            html.I(className="fas fa-moon"),
-                            id="theme-toggle",
-                            className="btn btn-ghost"
                         )
                     ],
                     className="ml-auto flex gap-4",  # Tailwind flex and gap utilities

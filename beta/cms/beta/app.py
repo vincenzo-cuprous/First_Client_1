@@ -3,10 +3,6 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from home import serve_home
-from about import serve_about
-from skills import serve_skills
-from projects import serve_projects
-from contact import serve_contact
 from layout import create_navbar, create_footer
 from settings import PORT, HOST
 
@@ -23,7 +19,6 @@ app.layout = html.Div([
     # Footer will be rendered once here
     create_footer(),
     # Theme store
-    dcc.Store(id='theme-store', data='light')
 ])
 
 # Callback to update the navbar and page content based on the URL
@@ -35,21 +30,13 @@ app.layout = html.Div([
 def update_layout(pathname):
     """Updates the navbar and page content based on the current pathname."""
     routes = {
-        '/': 'home',
-        '/about': 'about',
-        '/skills': 'skills',
-        '/projects': 'projects',
-        '/contact': 'contact'
+        '/': 'home'
     }
     active_section = routes.get(pathname, 'home')
 
     # Define the page content based on the URL
     page_content = {
-        '/': serve_home(),
-        '/about': serve_about(),
-        '/skills': serve_skills(),
-        '/projects': serve_projects(),
-        '/contact': serve_contact()
+        '/': serve_home()
     }.get(pathname, '404 Page Not Found')
 
     # Re-render the navbar with the correct active section
