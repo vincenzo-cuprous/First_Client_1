@@ -1,19 +1,24 @@
-# app.py
 from settings import app, db
-from books import Book, add_book, get_book, get_all_books, update_book, delete_book
-from comment import (
-    Comment, add_comment, get_book_comments, update_comment, delete_comment, 
-    get_user_comments, add_admin_reply, delete_admin_reply,
-    get_comments_with_admin_replies, get_comments_without_admin_replies
+from books import (
+    Book, add_book, get_book, get_all_books, update_book, delete_book
 )
-from flask import send_from_directory, render_template_string, abort
+from flask import send_from_directory, render_template_string, abort, request, jsonify
 import os
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
-# Configuration for file serving
+# Configuration for file serving and uploads
 SERVE_DIRECTORY = "db"  # Directory to serve files from
-if not os.path.exists(SERVE_DIRECTORY):
-    os.makedirs(SERVE_DIRECTORY)
+UPLOAD_FOLDER = 'uploads/books'
+PICTURES_FOLDER = os.path.join(UPLOAD_FOLDER, 'pictures')
+DOCUMENTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'documents')
+
+ALLOWED_PICTURE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_DOCUMENT_EXTENSIONS = {'txt', 'pdf'}
+
+# Ensure the upload folders exist
+os.makedirs(PICTURES_FOLDER, exist_ok=True)
+os.makedirs(DOCUMENTS_FOLDER, exist_ok=True)
 
 # HTML template for directory listing
 DIRECTORY_TEMPLATE = '''
@@ -62,18 +67,42 @@ app.route('/books', methods=['GET'])(get_all_books)
 app.route('/book/<int:book_id>', methods=['PUT'])(update_book)
 app.route('/book/<int:book_id>', methods=['DELETE'])(delete_book)
 
-# Comment routes
-app.route('/book/<int:book_id>/comment', methods=['POST'])(add_comment)
-app.route('/book/<int:book_id>/comments', methods=['GET'])(get_book_comments)
-app.route('/comment/<int:comment_id>', methods=['PUT'])(update_comment)
-app.route('/comment/<int:comment_id>', methods=['DELETE'])(delete_comment)
-app.route('/user/<int:user_id>/comments', methods=['GET'])(get_user_comments)
+# File upload functionality
+def allowed_picture_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_PICTURE_EXTENSIONS
 
-# New admin reply routes
-app.route('/comment/<int:comment_id>/admin-reply', methods=['POST'])(add_admin_reply)
-app.route('/comment/<int:comment_id>/admin-reply', methods=['DELETE'])(delete_admin_reply)
-app.route('/comments/with-admin-replies', methods=['GET'])(get_comments_with_admin_replies)
-app.route('/comments/without-admin-replies', methods=['GET'])(get_comments_without_admin_replies)
+def allowed_document_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_DOCUMENT_EXTENSIONS
+
+@app.route('/db/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if file and allowed_picture_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(PICTURES_FOLDER, filename))
+        return jsonify({"message": f"Picture '{filename}' uploaded successfully!"}), 200
+
+    if file and allowed_document_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(DOCUMENTS_FOLDER, filename))
+        return jsonify({"message": f"Document '{filename}' uploaded successfully!"}), 200
+
+    return jsonify({"error": "File type not allowed"}), 400
+
+@app.route('/db/pictures/<path:filename>', methods=['GET'])
+def get_picture(filename):
+    return send_from_directory(PICTURES_FOLDER, filename)
+
+@app.route('/db/documents/<path:filename>', methods=['GET'])
+def get_document(filename):
+    return send_from_directory(DOCUMENTS_FOLDER, filename)
 
 # File serving routes
 @app.route('/db/')
@@ -82,11 +111,11 @@ def serve_files(path=''):
     try:
         # Get absolute path
         abs_path = os.path.join(SERVE_DIRECTORY, path)
-        
+
         # Ensure the path is within the serve directory
         if not os.path.abspath(abs_path).startswith(os.path.abspath(SERVE_DIRECTORY)):
             abort(403)  # Forbidden
-            
+
         # If path is a directory, show directory listing
         if os.path.isdir(abs_path):
             items = []
@@ -100,12 +129,12 @@ def serve_files(path=''):
             # Sort items: directories first, then files, both alphabetically
             items.sort(key=lambda x: (not x['is_dir'], x['name'].lower()))
             return render_template_string(DIRECTORY_TEMPLATE, items=items, path=path)
-        
+
         # If path is a file, serve it
         directory = os.path.dirname(abs_path)
         filename = os.path.basename(abs_path)
         return send_from_directory(directory, filename)
-    
+
     except Exception as e:
         app.logger.error(f"Error serving file: {str(e)}")
         abort(404)

@@ -1,0 +1,23 @@
+curl -X POST http://127.0.0.1:5000/book -H "Content-Type: application/json" -d '{
+    "book_name": "Sample Book",
+    "ratings": 4.5,
+    "author_name": "John Doe",
+    "category": "Fiction",
+    "description": "A sample book description.",
+    "picture_url": "http://example.com/sample.jpg",
+    "download_url": "http://example.com/sample.pdf"
+  }'
+
+curl -X GET http://127.0.0.1:5000/book/1
+
+curl -X GET http://127.0.0.1:5000/books
+
+curl -X PUT http://127.0.0.1:5000/book/1 -H "Content-Type: application/json" -d '{
+    "book_name": "Updated Book Name",
+    "ratings": 4.7
+  }'
+
+
+curl -X DELETE http://127.0.0.1:5000/book/1
+
+
