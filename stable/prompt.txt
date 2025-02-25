@@ -1,0 +1,1 @@
+now can you split the functions in modules (books.py=>serve_book_page() book_list.py=> serve_books_list()) from books.py and link them to routes.py.

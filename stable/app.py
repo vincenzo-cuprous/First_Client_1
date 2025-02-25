@@ -1,32 +1,26 @@
 # app.py
 from dash import Dash, html, dcc
 from dash.dependencies import Input, Output, State
-import dash_bootstrap_components as dbc
+import dash_bootstrap_components as dbc  # Import dbc here
 from layout import create_footer
 from routes import register_callbacks
 from books import register_book_callbacks, register_book_detail_callbacks
 from settings import PORT, HOST
 
-# Initialize the Dash app with suppress_callback_exceptions=True
+# Initialize the Dash app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
 
 # Define the layout of the app
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    # Navbar will be rendered once here
-    html.Div(id='navbar-container'),  # Use a container for the navbar
-    # Content div for pages
+    html.Div(id='navbar-container'),
     html.Div(id='page-content'),
-    # Footer will be rendered once here
     create_footer(),
-    # Theme store - now only defined here
-    dcc.Store(id='theme-store', data='light', storage_type='local')  # Added storage_type for persistence
+    dcc.Store(id='theme-store', data='light', storage_type='local')
 ])
 
-# Register route callbacks from routes.py
+# Register callbacks
 register_callbacks(app)
-
-# Register book-related callbacks
 register_book_callbacks(app)
 register_book_detail_callbacks(app)
 

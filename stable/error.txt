@@ -1,0 +1,8 @@
+│
+│ * Serving Flask app 'app'                                                                                        │
+│ * Debug mode: on                                                                                                 │
+│Error loading book details: name 'dbc' is not defined                                                             │
+│Error loading book details: name 'dbc' is not defined                                                             │
+│Error loading book details: name 'dbc' is not defined                                                             │
+│Error loading book details: name 'dbc' is not defined                                                             │
+│
