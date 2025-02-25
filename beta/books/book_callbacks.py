@@ -4,7 +4,6 @@ import requests
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 from .book_components import create_book_card, create_rating_stars
-from .comments import register_comment_callbacks  # Import comment callbacks
 
 API_BASE_URL = "http://localhost:5000"
 
@@ -110,15 +109,6 @@ def register_book_detail_callbacks(app):
                         ], className="flex flex-wrap gap-4 mb-8"),
                     ], className="w-full md:w-2/3 lg:w-3/4 md:pl-8"),
                 ], className="flex flex-col md:flex-row container mx-auto px-4 py-12"),
-                # Comment Section
-                html.Div([
-                    html.H2("Comments", className="text-3xl font-bold mb-6"),
-                    html.Div([
-                        html.Textarea(id="comment-input", placeholder="Write your comment here...", className="textarea textarea-bordered w-full mb-4"),
-                        html.Button([html.I(className="fas fa-paper-plane mr-2"), "Submit Comment"], id="submit-comment", className="btn btn-primary hover:scale-105 transition-transform"),
-                    ], className="mb-8"),
-                    html.Div(id="comments-list", className="space-y-4"),
-                ], className="container mx-auto px-4 py-12 bg-base-100"),
             ])
         except Exception as e:
             print(f"Error loading book details: {str(e)}")  # Log the error
@@ -126,6 +116,3 @@ def register_book_detail_callbacks(app):
                 html.P(f"Error: {str(e)}", className="text-center py-12"),
                 dcc.Link(html.Button("Return to Books", className="btn btn-primary"), href="/books")
             ])
-    
-    # Register comment callbacks
-    register_comment_callbacks(app)

@@ -21,7 +21,7 @@ def serve_books_list_page():
             html.Div(id="books-loading", children=[
                 html.Div(className="loading loading-spinner loading-lg mx-auto")
             ], className="py-8 text-center"),
-            html.Div(id="books-list", className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto px-4 py-8"),
+            html.Div(id="books-list", className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap=6 container mx-auto px=4 py=8"),
         ], className="bg-base-100"),
         # Store for book data
         dcc.Store(id="books-data-store"),
@@ -48,8 +48,4 @@ def serve_book_page(book_id):
         dcc.Store(id="book-id-store", data=book_id),
         # Interval for initial load
         dcc.Interval(id="load-book-details", interval=100, max_intervals=1),
-        # Interval for refreshing comments
-        dcc.Interval(id="load-comments", interval=30000),
-        # Comment status message area
-        html.Div(id="comment-status", className="container mx-auto px-4 py-2")
     ])
