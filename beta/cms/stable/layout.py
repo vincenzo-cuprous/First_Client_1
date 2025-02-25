@@ -18,7 +18,7 @@ def create_navbar(active_section='home'):
                     [
                         dbc.NavLink(
                             [html.I(className="fas fa-crown mr-2"), "Admin"],
-                            href="/",
+                            href="/admin",
                             active=active_section == "home",  # Active state for Home
                             className=f"btn btn-ghost {'btn-active' if active_section == 'home' else ''}"  # DaisyUI active class
                         )
