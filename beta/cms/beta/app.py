@@ -3,7 +3,7 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from home import serve_home
-from admin import serve_admin, register_callbacks  # Import the new admin module
+from admin import serve_admin, register_callbacks  # Import from the updated admin module
 from layout import create_navbar, create_footer
 from settings import PORT, HOST
 
@@ -39,7 +39,7 @@ def update_layout(pathname):
     # Define the page content based on the URL
     page_content = {
         '/': serve_home(),
-        '/admin': serve_admin()  # Add admin page content
+        '/admin': serve_admin()  # Uses the modularized admin page
     }.get(pathname, '404 Page Not Found')
 
     # Re-render the navbar with the correct active section
@@ -59,7 +59,7 @@ def toggle_theme(n_clicks, current_theme):
         return current_theme
     return 'dark' if current_theme == 'light' else 'light'
 
-# Register admin page callbacks
+# Register admin page callbacks from the modularized structure
 register_callbacks(app)
 
 # Run the app
