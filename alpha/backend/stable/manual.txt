@@ -1,0 +1,97 @@
+```bash
+curl -X POST http://localhost:5000/book/1/comment \
+-H "Content-Type: application/json" \
+-d '{
+    "user_id": 1,
+    "user_name": "John Doe",
+    "comment": "This is a test comment"
+}'
+```
+
+2. Add an admin reply to this comment (assuming comment_id is 1):
+```bash
+curl -X POST http://localhost:5000/comment/1/admin-reply \
+-H "Content-Type: application/json" \
+-d '{
+    "reply_from_admin": "Thank you for your comment, we appreciate your feedback!"
+}'
+```
+
+3. Get all comments for a specific book:
+```bash
+curl http://localhost:5000/book/1/comments
+```
+
+4. Get all comments with admin replies:
+```bash
+curl http://localhost:5000/comments/with-admin-replies
+```
+
+5. Get all comments without admin replies:
+```bash
+curl http://localhost:5000/comments/without-admin-replies
+```
+
+6. Update an admin reply:
+```bash
+curl -X PUT http://localhost:5000/comment/1 \
+-H "Content-Type: application/json" \
+-d '{
+    "reply_from_admin": "Updated admin response"
+}'
+```
+
+7. Delete an admin reply:
+```bash
+curl -X DELETE http://localhost:5000/comment/1/admin-reply
+```
+
+8. Get all comments from a specific user:
+```bash
+curl http://localhost:5000/user/1/comments
+```
+
+To make testing easier, you can save the comment ID from the first response and use it in subsequent requests. For example:
+
+```bash
+# Save the comment ID
+COMMENT_ID=$(curl -X POST http://localhost:5000/book/1/comment \
+-H "Content-Type: application/json" \
+-d '{
+    "user_id": 1,
+    "user_name": "John Doe",
+    "comment": "This is a test comment"
+}' | jq -r '.comment.comment_id')
+
+# Use the saved comment ID
+curl -X POST http://localhost:5000/comment/$COMMENT_ID/admin-reply \
+-H "Content-Type: application/json" \
+-d '{
+    "reply_from_admin": "Thank you for your comment!"
+}'
+
+
+
+curl -X POST http://127.0.0.1:5000/book -H "Content-Type: application/json" -d '{
+    "book_name": "Sample Book",
+    "ratings": 4.5,
+    "author_name": "John Doe",
+    "category": "Fiction",
+    "description": "A sample book description.",
+    "picture_url": "http://example.com/sample.jpg",
+    "download_url": "http://example.com/sample.pdf"
+  }'
+
+curl -X GET http://127.0.0.1:5000/book/1
+
+curl -X GET http://127.0.0.1:5000/books
+
+curl -X PUT http://127.0.0.1:5000/book/1 -H "Content-Type: application/json" -d '{
+    "book_name": "Updated Book Name",
+    "ratings": 4.7
+  }'
+
+
+curl -X DELETE http://127.0.0.1:5000/book/1
+
+
